@@ -31,6 +31,7 @@ makepkg -si
 ```bash
 sudo systemctl enable NetworkManager
 sudo systemctl enable lightdm
+sudo systemctl enable systemd-timesyncd
 ```
 
 ### Material Awesome Setup
@@ -102,3 +103,12 @@ The project is split in functional directories and in each of them there is a re
 * [Module](./module) contain all the **features** available
 * [Theme](./theme) hold all the **aesthetic** aspects
 * [Widget](./widget) contain all the **widgets** available
+
+## Extra Packages for Quality of Life
+
+```bash
+yay -S raspi-config pulseaudio pavucontrol
+```
+
+* [My ZSH](https://github.com/ChrisTitusTech/zsh)
+* [PowerLevel10k](https://github.com/romkatv/powerlevel10k)

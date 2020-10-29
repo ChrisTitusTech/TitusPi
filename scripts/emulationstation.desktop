@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Games
+Comment=EmulationStaion
+Icon=/home/titus/RetroPie/emulationstation.png
+Exec=/home/titus/.local/bin/esrun
+Type=Application
+Encoding=UTF-8
+Terminal=false
+Categories=None;
