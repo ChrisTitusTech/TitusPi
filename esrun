@@ -1,0 +1,199 @@
+#!/bin/bash
+
+# zit script to launch emulationstation FROM a Pi desktop
+# script:
+# - close X
+# - launch emulationstation
+# - restart X (or replay or shutdown)
+
+# the user Pi MUST be logged in tty1 for all of this to work !
+# this is automatic when booting to desktop (or CLI) automatically
+
+##################
+#	CONFIG	#
+##################
+### script(s) paths
+# UNUSED - just replace all occurences of the path in front of "zzconsole" to use
+# could also use autodetection of current path ...
+SCRIPTS_PATH=/home/titus/scripts
+
+### where is zzwrite/writevt ?
+	# what is zzwrite/writevt ?
+	# writevt is a C program to write to a TTY
+	# it's now part of the package "console-tools", but Raspis have kbd by default, so I compiled from source
+	# zzwrite is the exec produced from writevt.c (https://raw.githubusercontent.com/grawity/code/master/thirdparty/writevt.c)
+	# to compile it yourself, dl the C code, and do $ gcc -o zzwritevt writevt.c
+	# NOTE FROM "https://unix.stackexchange.com/questions/48103/construct-a-command-by-putting-a-string-into-a-tty/48120#48120"
+	# 	"[...] you have to use '\r' (or '\x0D') instead of '\n' (or '\x0A') to send a return."
+# leave empty if its in the -SUDO- $PATH
+WRITEVT_PATH=/home/titus/scripts
+# exec name (original: writevt)
+WRITEVT_EXEC=zzwritevt
+
+### X commands
+XCMD_START="systemctl start lightdm"
+XCMD_STOP="systemctl stop lightdm"
+
+##################
+#	CODE		#
+##################
+
+# no-X mode
+# to test the script without killing/starting X (way faster)
+#~ NO_X_CMDS=1
+# command run ieof ES when no-X mode
+DBG_CMD="tail -n 1 -f /var/log/debug"
+				
+# get full writevt path
+if [[ "WRITEVT_PATH" = "" ]]; then
+	# no path given, is in sudo PATH
+	WRTVT=$WRITEVT_EXEC
+else
+	WRTVT=$WRITEVT_PATH/$WRITEVT_EXEC
+fi
+
+# there is 3 steps to launch the emulator from X, so 3 IFs in code
+# 1. the script is re-launched but forked to init, to avoid being dependent on X and closed by it, then exits
+# 2. the fork switches TTY from 7 to 1 (X to prompt), kill X if needed, and re-launches itself FROM tty1, then exits
+# 3. the emulator is run, and when closed, a menu to ask what to do
+
+# if no args (==exit X mode, to keep Desktop shortcut simple)
+if [[ $# = 0 ]]; then
+	
+	# relaunch the script, but double-forked
+	# needed to resist X closing
+	(/home/titus/scripts/zzconsole forked >/dev/tty1 2>&1 &) &
+	exit 0
+fi
+
+# this version is launched from init and outputs to tty1
+# it uses writevt to act on tty1, but echo to output things
+if [[ "$1" = "forked" ]]; then
+	
+    ### Clear/clean tty1 to start on a new line AND a fresh new TTY
+	# clean tty1 current line with ^C in case it contained chars
+	sudo $WRTVT /dev/tty1 "`echo $'\003'`"
+	
+    ### Change to vt1
+	sudo $WRTVT /dev/tty1 "chvt 1"$'\r'
+	# now clear it nicely, but not in no-X/debug mode to see output between different runs
+	if [[ ! $NO_X_CMDS ]]; then
+		sudo $WRTVT /dev/tty1 "clear"$'\r'
+		# wait 1s, otherwise output may start BEFORE seeing the tty
+		sleep 1
+	fi
+	
+    ### Init script output
+	echo ""
+
+    ### Warning if no-X mode
+	if [[ $NO_X_CMDS ]]; then
+		echo ""
+		echo "Debug mode, aka No-X mode"
+		echo "Will not kill and restart X, just switching TTYs and run script"
+		echo "DO NOT USE WITH AN ES LAUNCH, USE TAIL OR W/E"
+	else
+    ### Close X
+		# first, the usual Pi way, if X was autobooted and is on tty7 (so launched via the lightdm service)
+		if [[ `/etc/init.d/lightdm status | grep "Active: active (running)" | wc -l` = 1 ]]; then
+			echo "X server shutting down (lightdm service) ..."
+			#~ echo "Attendre que X se ferme ..."
+			sudo $XCMD_STOP > /dev/null
+			# let it shutdown nicely all X services, including Xorg
+			# maybe its unneeded, but dont wanna test (if the shutdown script forks processes, they may continue running)
+			# ive seen dbus takes a long time to shutdown, but maybe launching ES at the same time doesnt hurt
+			sleep 5
+		else
+			echo "lightdm service not started"
+		fi
+	
+		# kill X when launched with "startx", and not via the lightdm service
+		XPID=`pgrep Xorg`
+		PGREP_RET=`echo $?`
+		# process(es) found (does not handle yet multi PIDs, or is it automatically ?)
+		if [[ $PGREP_RET = 0 ]]; then
+			echo "X server shutting down (startx) ..."
+			sudo kill $XPID >/dev/null 2>&1
+			sleep 5
+		else
+			echo "No (remaining) Xorg process"
+		fi
+		
+		# kill all remaining ssh-agents (dunno why theyre not killed with X session)
+		# q,w,e,i
+		sudo killall --quiet --wait --exact --ignore-case -- /usr/bin/ssh-agent -s
+	fi
+	
+    ### Launch emulator and menu part
+	# reset term line first
+	sudo $WRTVT /dev/tty1 $'\r'
+	sudo $WRTVT /dev/tty1 "echo && /home/titus/scripts/zzconsole play"$'\r'
+	
+    ### done for this fork
+	exit 0
+fi
+
+# - run emulationstation
+# - after game menu
+# - after game action
+if [[ "$1" = "play" ]]; then
+	
+	# from now on, prevent Ctrl-C from being used in THIS script, so the menu cant get killed
+	# but propagate it to launched process
+# hmm, isnt ES using ^C too ?
+	# function launched on trap
+	_zINTrap() {
+		echo
+		echo "CTRL-C is blocked in this script (SIGINT signal trapped)"
+		echo "Continue as if nothing happened (ie. answer normally to a menu or question)"
+	}
+	
+	# trap ^C aka SIGINT
+	trap : INT
+	
+	# no GOTO in bash, need loop
+	# 1st exec forced params values (start loop and run ES)
+	loop="y"
+	bypass_emul=0
+	
+	while [ "$loop" = "y" ]; do
+		
+		## run emulationstation if requested
+		if [[ "$bypass_emul" = 0 ]]; then
+			# for dbg, run another persistent prog
+			if [[ $NO_X_CMDS ]]; then
+				echo "Launching debug command \"$DBG_CMD\" (Ctrl-C to quit) ..."
+				echo
+				$DBG_CMD
+			else
+				echo "Launching Emulation Station ..."
+				echo
+				#~ echo "Sleep 5s" && sleep 5 # when ES not installed, goes direct to after-game menu, so sleep for dbg
+				emulationstation
+			fi
+			
+			# custom trap for when ES not running, to preserve script
+			trap _zINTrap INT
+		fi
+		
+		## after game menu
+		# next line is to keep error messages from consecutive runs, except in no-X/debug mode
+		if [[ ! $NO_X_CMDS ]]; then
+			clear
+		fi
+		
+		sudo $XCMD_START
+		echo "Restarting X, this will take a few seconds ..."
+		sleep 1 && chvt 1
+		sleep 5 && chvt 7
+		sudo $WRTVT /dev/tty1 "clear"$'\r'
+			
+		
+		# unknown answer, loop on menu
+		loop="y"
+		bypass_emul=1
+		
+	# end while loop
+	done
+	exit 0
+# end interactive/play mode (never reached though)
