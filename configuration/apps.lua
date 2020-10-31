@@ -18,7 +18,7 @@ return {
     browser = 'chromium',
     editor = 'gedit', -- gui text editor
     social = 'discord',
-    game = rofi_command,
+    game = 'emulationstation',
     files = 'nautilus',
     music = rofi_command 
   },
@@ -29,7 +29,7 @@ return {
     'pnmixer', -- shows an audiocontrol applet in systray when installed.
     --'blueberry-tray', -- Bluetooth tray icon
     'numlockx on', -- enable numlock
-    '/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg)', -- credential manager
+    --'/usr/lib/polkit-1-gnome/polkit-gnome-authentication-agent-1', -- credential manager
     'xfce4-power-manager', -- Power manager
      'flameshot',
     -- Add applications that need to be killed between reloads

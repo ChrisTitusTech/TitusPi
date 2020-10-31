@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo /usr/bin/chvt 1
+#sudo systemctl stop lightdm
+sudo ttyecho -n /dev/tty1 "/usr/bin/emulationstation ; sudo chvt 7"

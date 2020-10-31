@@ -360,8 +360,9 @@ local globalKeys =
     {modkey},
     'g',
     function()
-      awful.util.spawn_with_shell('lutris')
-    end
+      awful.util.spawn_with_shell('/home/titus/.local/bin/esrun')
+    end,
+    {description = 'Open Emulation Station - Games Console', group = 'hotkeys'}
   ),
   -- System Monitor hotkey
   awful.key(
@@ -369,7 +370,8 @@ local globalKeys =
     'm',
     function()
       awful.util.spawn_with_shell('mate-system-monitor')
-    end
+    end,
+    {description = 'Open System Monitor', group = 'hotkeys'}
   ),
   -- Kill VLC
   awful.key(
@@ -386,7 +388,7 @@ local globalKeys =
     function()
       awful.util.spawn(apps.default.files)
     end,
-    {description = 'filebrowser', group = 'hotkeys'}
+    {description = 'Open Nautilus filebrowser', group = 'hotkeys'}
   ),
   -- Emoji Picker
   awful.key(

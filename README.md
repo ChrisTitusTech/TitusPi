@@ -1,9 +1,12 @@
-## TitusPi - A Raspberry Pi Desktop Distribution that doesn't suck
+## Material and Mouse driven theme for [AwesomeWM 4.3](https://awesomewm.org/)
+### Original work by PapyElGringo, official development seem to have moved to [material-shell](https://github.com/PapyElGringo/material-shell)
 
-### Original work by PapyElGringo, he is now developing [material-shell](https://github.com/PapyElGringo/material-shell) for GNOME
+Note: This fork focuses on streamlining the config and adding some Quality of Life touches to the theme.
 
 An almost desktop environment made with [AwesomeWM](https://awesomewm.org/) following the [Material Design guidelines](https://material.io) with a performant opiniated mouse/keyboard workflow to increase daily productivity and comfort.
 
+[![](./theme/PapyElGringo-theme/demo.gif?raw=true)](https://www.reddit.com/r/unixporn/comments/anp51q/awesome_material_awesome_workflow/)
+*[Click to view in high quality](https://www.reddit.com/r/unixporn/comments/anp51q/awesome_material_awesome_workflow/)*
 
 | Tiled         | Panel         | Exit screen   |
 |:-------------:|:-------------:|:-------------:|
@@ -11,44 +14,22 @@ An almost desktop environment made with [AwesomeWM](https://awesomewm.org/) foll
 
 ## Installation
 
-### Base System
+### 1) Get all the dependencies
 
-#### Root Pacman Setup
-
-```bash
-pacman -S xorg xorg-drivers mesa lightdm lightdm-gtk-greeter base-devel vim nano sudo clang cmake git gcc glibc networkmanager
-```
-#### Yay Install with User (DO NOT USE ROOT)
-
-```bash
-git clone "https://aur.archlinux.org/yay.git"
-cd yay
-makepkg -si
-```
-
-#### Service Setup on Boot
-
-```bash
-sudo systemctl enable NetworkManager
-sudo systemctl enable lightdm
-sudo systemctl enable systemd-timesyncd
-```
-
-### Material Awesome Setup
-
-#### Raspbian-Based
+#### Debian-Based
 
 ```
-sudo apt install awesome fonts-roboto rofi compton i3lock xclip qt5-style-plugins materia-gtk-theme lxappearance xbacklight flameshot nautilus xfce4-power-manager pnmixer network-manager-gnome polkit-1-gnome terminator chromium gedit nautilus -y
+sudo add-apt-repository ppa:regolith-linux/unstable -y
+sudo apt install awesome fonts-roboto rofi picom i3lock xclip qt5-style-plugins materia-gtk-theme lxappearance xbacklight kde-spectacle nautilus xfce4-power-manager pnmixer network-manager-applet gnome-polkit -y
 wget -qO- https://git.io/papirus-icon-theme-install | sh
 ```
 
-*Note: picom replaced with compton in pi because of ARM Architecture*
+*Note: PPA is for picom since compton is old and hasn't been updated*
 
 #### Arch-Based
 
 ```
-yay -S awesome rofi picom i3lock-fancy xclip ttf-roboto polkit-gnome materia-gtk-theme lxappearance flameshot pnmixer network-manager-applet xfce4-power-manager terminator chromium gedit nautilus -y
+yay -S awesome rofi picom i3lock-fancy xclip ttf-roboto gnome-polkit materia-gtk-theme lxappearance flameshot pnmixer network-manager-applet xfce4-power-manager -y
 wget -qO- https://git.io/papirus-icon-theme-install | sh
 ```
 
@@ -57,7 +38,7 @@ wget -qO- https://git.io/papirus-icon-theme-install | sh
 - [AwesomeWM](https://awesomewm.org/) as the window manager - universal package install: awesome
 - [Roboto](https://fonts.google.com/specimen/Roboto) as the **font** - Debian: fonts-roboto Arch: ttf-roboto
 - [Rofi](https://github.com/DaveDavenport/rofi) for the app launcher - universal install: rofi
-- Compton - This is depreciated, but the new picom is not supported in ARM yet
+- [picom](https://github.com/yshui/picom) for the compositor (blur and animations) universal install: picom - Debian users need PPA (`sudo add-apt-repository ppa:regolith-linux/unstable`)
 - [i3lock](https://github.com/meskarune/i3lock-fancy) the lockscreen application universal install: i3lock-fancy
 - [xclip](https://github.com/astrand/xclip) for copying screenshots to clipboard package: xclip
 - [gnome-polkit] recommend using the gnome-polkit as it integrates nicely for elevating programs that need root access
@@ -70,18 +51,18 @@ wget -qO- https://git.io/papirus-icon-theme-install | sh
 - [network-manager-applet](https://gitlab.gnome.org/GNOME/network-manager-applet) nm-applet is a Network Manager Tray display from GNOME.
 - [xfce4-power-manager](https://docs.xfce.org/xfce/xfce4-power-manager/start) XFCE4's power manager is excellent and a great way of dealing with sleep, monitor timeout, and other power management features.
 
-#### Clone the configuration
+### 2) Clone the configuration
 
 ```
-git clone https://github.com/ChrisTitusTech/TitusPi.git ~/.config/awesome
+git clone https://github.com/ChrisTitusTech/material-awesome.git ~/.config/awesome
 ```
 
-#### Set the themes
+### 3) Set the themes
 
 Start `lxappearance` to active the **icon** theme and **GTK** theme
 Note: for cursor theme, edit `~/.icons/default/index.theme` and `~/.config/gtk3-0/settings.ini`, for the change to also show up in applications run as root, copy the 2 files over to their respective place in `/root`.
 
-#### Same theme for Qt/KDE applications and GTK applications, and fix missing indicators
+### 4) Same theme for Qt/KDE applications and GTK applications, and fix missing indicators
 
 First install `qt5-style-plugins` (debian) | `qt5-styleplugins` (arch) and add this to the bottom of your `/etc/environment`
 
@@ -92,7 +73,7 @@ QT_QPA_PLATFORMTHEME=gtk2
 
 The first variable fixes most indicators (especially electron based ones!), the second tells Qt and KDE applications to use your gtk2 theme set through lxappearance.
 
-#### Changing the Matrial Awesome Theme
+### 5) Read the documentation
 
 The documentation live within the source code.
 
@@ -103,12 +84,3 @@ The project is split in functional directories and in each of them there is a re
 * [Module](./module) contain all the **features** available
 * [Theme](./theme) hold all the **aesthetic** aspects
 * [Widget](./widget) contain all the **widgets** available
-
-## Extra Packages for Quality of Life
-
-```bash
-yay -S raspi-config pulseaudio pavucontrol
-```
-
-* [My ZSH](https://github.com/ChrisTitusTech/zsh)
-* [PowerLevel10k](https://github.com/romkatv/powerlevel10k)
