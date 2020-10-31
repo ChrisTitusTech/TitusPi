@@ -95,11 +95,7 @@ wget -qO- https://git.io/papirus-icon-theme-install | sh
 - [network-manager-applet](https://gitlab.gnome.org/GNOME/network-manager-applet) nm-applet is a Network Manager Tray display from GNOME.
 - [xfce4-power-manager](https://docs.xfce.org/xfce/xfce4-power-manager/start) XFCE4's power manager is excellent and a great way of dealing with sleep, monitor timeout, and other power management features.
 
-<<<<<<< HEAD
 ### Clone the configuration
-=======
-#### Clone the configuration
->>>>>>> f8348a0d64f8de6b03153fe6a43631317e65424e
 
 ```
 git clone https://github.com/ChrisTitusTech/TitusPi.git ~/.config/awesome
