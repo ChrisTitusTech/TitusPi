@@ -13,8 +13,9 @@ An almost desktop environment made with [AwesomeWM](https://awesomewm.org/) foll
 
 I am created two different systems for TitusPi. Below you will find two paths... Arch Install or Raspbian OS Install. Choose one and DO NOT run commands for both.
 
-- Raspbian OS Install is what I based my Image off of @ https://portal.christitus.com/tituspi
-- Arch ARM OS Install is what I used for a minimal install. 
+Completed Images @ https://portal.christitus.com/tituspi
+- Raspbian OS Install - Completed
+- Arch ARM OS Install - Pi3 Arch in testing - Pi4 Arch not built
 
 *These instructions are not complete as there are components missing to build the base OS install.* (Xorg and other dependencies) If you have ever built arch before you will be familiar with the build process. It is almost identical - https://wiki.archlinux.org/index.php/installation_guide . I will update the project with each build, but it will take a long time before the instructions will be complete due to the complexity of building this. 
 
