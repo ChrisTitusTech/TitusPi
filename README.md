@@ -11,6 +11,7 @@ An almost desktop environment made with [AwesomeWM](https://awesomewm.org/) foll
 
 ## Before you Start
 
+<<<<<<< HEAD
 I am created two different systems for TitusPi. Below you will find two paths... Arch Install or Raspbian OS Install. Choose one and DO NOT run commands for both.
 
 - Raspbian OS Install is what I based my Image off of @ https://portal.christitus.com
@@ -40,6 +41,16 @@ Other modifications to the systems:
 pacman -S xorg xorg-drivers mesa lightdm lightdm-gtk-greeter base-devel vim nano sudo clang cmake git gcc glibc networkmanager
 ```
 ### Yay Install with User (DO NOT USE ROOT)
+=======
+### Base System
+
+#### Root Pacman Setup
+
+```bash
+pacman -S xorg xorg-drivers mesa lightdm lightdm-gtk-greeter base-devel vim nano sudo clang cmake git gcc glibc networkmanager
+```
+#### Yay Install with User (DO NOT USE ROOT)
+>>>>>>> f8348a0d64f8de6b03153fe6a43631317e65424e
 
 ```bash
 git clone "https://aur.archlinux.org/yay.git"
@@ -47,7 +58,11 @@ cd yay
 makepkg -si
 ```
 
+<<<<<<< HEAD
 ### Service Setup on Boot
+=======
+#### Service Setup on Boot
+>>>>>>> f8348a0d64f8de6b03153fe6a43631317e65424e
 
 ```bash
 sudo systemctl enable NetworkManager
@@ -55,6 +70,7 @@ sudo systemctl enable lightdm
 sudo systemctl enable systemd-timesyncd
 ```
 
+<<<<<<< HEAD
 ## Raspberry Pi OS Base Installation 
 
 *Work In Progress* - Look at the Arch install and install those packages (Note: some are a bit different because of the package manager differences)
@@ -62,6 +78,11 @@ sudo systemctl enable systemd-timesyncd
 ## Material Awesome Setup
 
 ### Raspbian-Based
+=======
+### Material Awesome Setup
+
+#### Raspbian-Based
+>>>>>>> f8348a0d64f8de6b03153fe6a43631317e65424e
 
 ```
 sudo apt install awesome fonts-roboto rofi compton i3lock xclip qt5-style-plugins materia-gtk-theme lxappearance xbacklight flameshot nautilus xfce4-power-manager pnmixer network-manager-gnome polkit-1-gnome terminator chromium gedit nautilus -y
@@ -95,18 +116,30 @@ wget -qO- https://git.io/papirus-icon-theme-install | sh
 - [network-manager-applet](https://gitlab.gnome.org/GNOME/network-manager-applet) nm-applet is a Network Manager Tray display from GNOME.
 - [xfce4-power-manager](https://docs.xfce.org/xfce/xfce4-power-manager/start) XFCE4's power manager is excellent and a great way of dealing with sleep, monitor timeout, and other power management features.
 
+<<<<<<< HEAD
 ### Clone the configuration
+=======
+#### Clone the configuration
+>>>>>>> f8348a0d64f8de6b03153fe6a43631317e65424e
 
 ```
 git clone https://github.com/ChrisTitusTech/TitusPi.git ~/.config/awesome
 ```
 
+<<<<<<< HEAD
 ### Set the themes
+=======
+#### Set the themes
+>>>>>>> f8348a0d64f8de6b03153fe6a43631317e65424e
 
 Start `lxappearance` to active the **icon** theme and **GTK** theme
 Note: for cursor theme, edit `~/.icons/default/index.theme` and `~/.config/gtk3-0/settings.ini`, for the change to also show up in applications run as root, copy the 2 files over to their respective place in `/root`.
 
+<<<<<<< HEAD
 ### Same theme for Qt/KDE applications and GTK applications, and fix missing indicators
+=======
+#### Same theme for Qt/KDE applications and GTK applications, and fix missing indicators
+>>>>>>> f8348a0d64f8de6b03153fe6a43631317e65424e
 
 First install `qt5-style-plugins` (debian) | `qt5-styleplugins` (arch) and add this to the bottom of your `/etc/environment`
 
@@ -117,7 +150,11 @@ QT_QPA_PLATFORMTHEME=gtk2
 
 The first variable fixes most indicators (especially electron based ones!), the second tells Qt and KDE applications to use your gtk2 theme set through lxappearance.
 
+<<<<<<< HEAD
 ### Changing the Matrial Awesome Theme
+=======
+#### Changing the Matrial Awesome Theme
+>>>>>>> f8348a0d64f8de6b03153fe6a43631317e65424e
 
 The documentation live within the source code.
 
