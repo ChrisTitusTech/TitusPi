@@ -11,7 +11,7 @@ An almost desktop environment made with [AwesomeWM](https://awesomewm.org/) foll
 
 ## Before you Start
 
-I am created two different systems for TitusPi. Below you will find two paths... Arch Install or Raspbian OS Install. Choose one and DO NOT run commands for both.
+I have created two different systems for TitusPi. Below you will find two paths... Arch Install or Raspbian OS Install. Choose one and DO NOT run commands for both.
 
 Completed Images @ https://portal.christitus.com/tituspi
 - Raspbian OS Install - Completed
