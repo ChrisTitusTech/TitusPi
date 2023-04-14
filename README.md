@@ -1,3 +1,9 @@
+# Official IMG file Download
+
+<https://www.cttstore.com/tituspi> - $10
+
+You can build it yourself for FREE by following the instructions below. 
+
 ## TitusPi Version 3 (2023 Edition)
 
 This verison is designed for max stability and ease of use. The build instructions are simplistic and only requires minor tweaks for the raspberrypi. 
