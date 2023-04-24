@@ -6,6 +6,10 @@ You can build it yourself for FREE by following the instructions below.
 
 ## TitusPi Version 3 (2023 Edition)
 
+| Terminal      | Desktop       | KDE Profile   |
+|:-------------:|:-------------:|:-------------:|
+|![](https://i.imgur.com/Y280wbD)|![](https://i.imgur.com/H86LgGf)|![](https://i.imgur.com/xEKkpks)|
+
 This verison is designed for max stability and ease of use. The build instructions are simplistic and only requires minor tweaks for the raspberrypi. 
 
 ### Build instructions
@@ -14,6 +18,7 @@ This verison is designed for max stability and ease of use. The build instructio
 - From console on login use `tasksel` and select KDE
 - Modify KDE to DISABLE composition in KWIN (Massive performance boost)
 - Modify `/boot/cmdline.txt` for leverage graphics acceleration and other boot modifications (quiet boot). 
+- Use [konsave](https://github.com/Prayag2/konsave) and tituspi.knsv (extracted from tituspi.7z files - 7Zip Required) to copy fonts, KDE settings and more!
 
 ```
 disable_splash=1
