@@ -8,7 +8,7 @@ You can build it yourself for FREE by following the instructions below.
 
 | Terminal      | Desktop       | KDE Profile   |
 |:-------------:|:-------------:|:-------------:|
-|![](https://i.imgur.com/Y280wbD)|![](https://i.imgur.com/H86LgGf)|![](https://i.imgur.com/xEKkpks)|
+|![](terminal.png)|![](desktop.png)|![](konsave.png)|
 
 This verison is designed for max stability and ease of use. The build instructions are simplistic and only requires minor tweaks for the raspberrypi. 
 
