@@ -1,6 +1,10 @@
 # Official IMG file Download
 
-<https://www.cttstore.com/tituspi> - $10
+- TitusPi 1 (AwesomeWM 2020) - In Releases Download
+- [TitusPi 2 (BSPWM) 2022](https://projects.christitus.com/tituspi2.img.gz)
+- [TitusPi 3 (KDE) 2023](https://projects.christitus.com/tituspi3-2023-04.zip)
+
+**Version 1/2/3 does NOT support RaspberryPi 5**
 
 You can build it yourself for FREE by following the instructions below. 
 
@@ -10,7 +14,7 @@ You can build it yourself for FREE by following the instructions below.
 |:-------------:|:-------------:|:-------------:|
 |![](terminal.png)|![](desktop.png)|![](konsave.png)|
 
-This verison is designed for max stability and ease of use. The build instructions are simplistic and only requires minor tweaks for the raspberrypi. 
+This version is designed for max stability and ease of use. The build instructions are simplistic and only require minor tweaks for the raspberrypi. 
 
 ### Build instructions
 
@@ -40,24 +44,24 @@ hdmi_enable_4kp60=1
 ```
 
 
-#### boot cmdline.txt explainations
+#### boot cmdline.txt explanations
 
 <www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/README.md>
 <www.cnx-software.com/2020/02/24/raspberry-pi-4-rev-1-2-fixes-usb-c-power-issues-improves-sd-card-resilience/>
 
-Seems my RPi4 version is more sensitive to what chargers I can use, therefore limits overclocking options.
+Seems my RPi4 version is more sensitive to what chargers I can use, therefore limiting overclocking options.
 
 ```
 cat /proc/cpuinfo | grep Revision
 ```
 
-> Revision : c03111
+> Revision: c03111
 
 ##### Overclocking
 
 Reference: <www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md>
 
-These are the speeds I achieve with arm_freq=2048. arm_freq=2047 reports a lower scaling_max_freq which can be noticed in games like God of War: Chains of Olympus (one of the games I used as benchmark). v3d_freq=750 is the max GPU overclock, over_voltage=6 required to provide extra juice (over_voltage=5 worked for me with arm_freq=2000).
+These are the speeds I achieved with arm_freq=2048. arm_freq=2047 reports a lower scaling_max_freq which can be noticed in games like God of War: Chains of Olympus (one of the games I used as benchmark). v3d_freq=750 is the max GPU overclock, over_voltage=6 required to provide extra juice (over_voltage=5 worked for me with arm_freq=2000).
 
 ```
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
@@ -113,7 +117,6 @@ An almost desktop environment made with [AwesomeWM](https://awesomewm.org/) foll
 
 I have created two different systems for TitusPi. Below you will find two paths... Arch Install or Raspbian OS Install. Choose one and DO NOT run commands for both.
 
-Completed Images @ https://www.cttstore.com/tituspi
 - Raspbian OS Install - Completed
 - Arch ARM OS Install - Pi3 Arch in testing - Pi4 Arch not built
 
